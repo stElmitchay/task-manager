@@ -1,0 +1,60 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+main {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+}
+
+#task-form {
+    display: flex;
+    flex-direction: column;
+}
+
+#task-form input, #task-form textarea {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+#task-form button[type="submit"] {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+#tasks {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.task {
+    background-color: white;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+}
+
+.task button {
+    float: right;
+    background-color: #333;
+    color: white;
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+}
