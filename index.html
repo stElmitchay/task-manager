@@ -45,22 +45,6 @@
                 </div>
                 
                 <div class="task-list">
-                    <div class="task-card meeting">
-                        <div class="task-content">
-                            <h3>You Have A Meeting</h3>
-                            <div class="time-details">
-                                <div class="start">
-                                    <span class="time">3:00 PM</span>
-                                    <span class="label">Start</span>
-                                </div>
-                                <div class="duration">30 Min</div>
-                                <div class="end">
-                                    <span class="time">3:30 PM</span>
-                                    <span class="label">End</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -147,10 +131,23 @@
             </div>
             <form id="taskForm">
                 <input type="text" id="taskTitle" placeholder="Task Title" required>
-                <div class="time-inputs">
-                    <input type="time" id="startTime" required>
-                    <input type="number" id="duration" placeholder="Duration (min)" required>
-                    <input type="time" id="endTime" required>
+                <textarea id="taskDescription" placeholder="Task Description" required></textarea>
+                <div class="priority-selector">
+                    <label>Priority:</label>
+                    <div class="priority-options">
+                        <label class="priority-option">
+                            <input type="radio" name="priority" value="high" required>
+                            <span class="priority-label high">High</span>
+                        </label>
+                        <label class="priority-option">
+                            <input type="radio" name="priority" value="medium" required>
+                            <span class="priority-label medium">Medium</span>
+                        </label>
+                        <label class="priority-option">
+                            <input type="radio" name="priority" value="low" required>
+                            <span class="priority-label low">Low</span>
+                        </label>
+                    </div>
                 </div>
                 <button type="submit" class="submit-task">Add Task</button>
             </form>

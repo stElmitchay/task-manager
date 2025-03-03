@@ -42,21 +42,84 @@ document.addEventListener('DOMContentLoaded', () => {
         timeElements[1].textContent = ukTime;
     }
 
-    // Modal controls
-    addTaskBtn.addEventListener('click', () => {
-        modal.classList.add('show');
-    });
+    // Function to create task card
+    function createTaskCard(title, description, priority) {
+        const taskCard = document.createElement('div');
+        taskCard.className = `task-card ${priority}-priority`;
+        taskCard.innerHTML = `
+            <div class="task-content">
+                <div class="task-header">
+                    <h3 class="task-title">${title}</h3>
+                    <div class="task-actions">
+                        <button class="edit-btn">✎</button>
+                        <button class="delete-btn">🗑️</button>
+                    </div>
+                </div>
+                <p class="task-description">${description}</p>
+                <div class="task-priority">
+                    <span class="priority-label ${priority}">${priority}</span>
+                </div>
+            </div>
+        `;
 
-    closeModalBtn.addEventListener('click', () => {
-        modal.classList.remove('show');
-    });
+        // Add edit functionality
+        const editBtn = taskCard.querySelector('.edit-btn');
+        editBtn.addEventListener('click', () => {
+            // Get current values
+            const titleElement = taskCard.querySelector('.task-title');
+            const descriptionElement = taskCard.querySelector('.task-description');
+            const currentPriority = taskCard.classList.contains('high-priority') ? 'high' :
+                                  taskCard.classList.contains('medium-priority') ? 'medium' : 'low';
 
-    // Close modal when clicking outside
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.classList.remove('show');
-        }
-    });
+            // Create input fields
+            const titleInput = document.createElement('input');
+            titleInput.type = 'text';
+            titleInput.value = titleElement.textContent;
+            titleInput.className = 'edit-input';
+
+            const descriptionInput = document.createElement('textarea');
+            descriptionInput.value = descriptionElement.textContent;
+            descriptionInput.className = 'edit-input';
+
+            // Create priority selector
+            const prioritySelect = document.createElement('select');
+            prioritySelect.className = 'edit-input';
+            prioritySelect.innerHTML = `
+                <option value="high" ${currentPriority === 'high' ? 'selected' : ''}>High</option>
+                <option value="medium" ${currentPriority === 'medium' ? 'selected' : ''}>Medium</option>
+                <option value="low" ${currentPriority === 'low' ? 'selected' : ''}>Low</option>
+            `;
+
+            // Replace text with input fields
+            titleElement.replaceWith(titleInput);
+            descriptionElement.replaceWith(descriptionInput);
+            taskCard.querySelector('.task-priority').replaceWith(prioritySelect);
+
+            // Change edit button to save button
+            editBtn.textContent = '💾';
+            editBtn.onclick = () => {
+                // Create new task card with updated values
+                const newCard = createTaskCard(
+                    titleInput.value,
+                    descriptionInput.value,
+                    prioritySelect.value
+                );
+                
+                // Replace old card with new one
+                taskCard.replaceWith(newCard);
+            };
+        });
+
+        // Add delete functionality
+        const deleteBtn = taskCard.querySelector('.delete-btn');
+        deleteBtn.addEventListener('click', () => {
+            if (confirm('Are you sure you want to delete this task?')) {
+                taskCard.remove();
+            }
+        });
+
+        return taskCard;
+    }
 
     // Format time to 12-hour format
     function formatTime(time) {
@@ -67,41 +130,35 @@ document.addEventListener('DOMContentLoaded', () => {
         return `${hour12}:${minutes} ${ampm}`;
     }
 
-    // Handle form submission
+    // Convert 12-hour time to 24-hour format
+    function convertTo24Hour(time12h) {
+        const [time, modifier] = time12h.split(' ');
+        let [hours, minutes] = time.split(':');
+        hours = parseInt(hours);
+        if (modifier === 'PM' && hours < 12) hours += 12;
+        if (modifier === 'AM' && hours === 12) hours = 0;
+        return `${hours.toString().padStart(2, '0')}:${minutes}`;
+    }
+
+    // Update form submission handler
     taskForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
         const title = document.getElementById('taskTitle').value;
-        const startTime = document.getElementById('startTime').value;
-        const duration = document.getElementById('duration').value;
-        const endTime = document.getElementById('endTime').value;
+        const description = document.getElementById('taskDescription').value;
+        const priority = document.querySelector('input[name="priority"]:checked').value;
 
-        // Create new task card
-        const taskCard = document.createElement('div');
-        taskCard.className = 'task-card meeting';
-        taskCard.innerHTML = `
-            <div class="task-content">
-                <h3>${title}</h3>
-                <div class="time-details">
-                    <div class="start">
-                        <span class="time">${formatTime(startTime)}</span>
-                        <span class="label">Start</span>
-                    </div>
-                    <div class="duration">${duration} Min</div>
-                    <div class="end">
-                        <span class="time">${formatTime(endTime)}</span>
-                        <span class="label">End</span>
-                    </div>
-                </div>
-            </div>
-        `;
-
-        // Add task to list
-        taskList.appendChild(taskCard);
+        taskList.appendChild(createTaskCard(title, description, priority));
         
-        // Reset form and close modal
         taskForm.reset();
         modal.classList.remove('show');
+    });
+
+    // Modal controls
+    addTaskBtn.addEventListener('click', () => modal.classList.add('show'));
+    closeModalBtn.addEventListener('click', () => modal.classList.remove('show'));
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.classList.remove('show');
     });
 
     // Navigation buttons
@@ -111,7 +168,6 @@ document.addEventListener('DOMContentLoaded', () => {
             navButtons.forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
             
-            // Toggle view based on button clicked
             if (button.textContent === 'Calendar') {
                 tasksSection.style.display = 'none';
                 calendarSection.style.display = 'block';
