@@ -5,26 +5,157 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Manager</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <h1>Task Manager</h1>
-    </header>
-    <main>
-        <section id="create-task">
-            <h2>Create Task</h2>
-            <form id="task-form">
-                <input type="text" id="task-name" placeholder="Task Name">
-                <textarea id="task-description" placeholder="Task Description"></textarea>
-                <button type="submit">Create Task</button>
-            </form>
-        </section>
-        <section id="task-list">
-            <h2>Task List</h2>
-            <ul id="tasks"></ul>
-        </section>
-    </main>
+    <div class="container">
+        <header>
+            <nav>
+                <button class="active">Today</button>
+                <button>Calendar</button>
+                <button class="add-task">+</button>
+            </nav>
+        </header>
 
+        <main>
+            <div class="date-display">
+                <div class="date-main">
+                    <div class="day">Tuesday</div>
+                    <div class="date">
+                        <span class="number">13.12</span>
+                        <span class="month">DEC</span>
+                    </div>
+                </div>
+                <div class="time-zones">
+                    <div class="time">
+                        <span>1:20 PM</span>
+                        <span class="location">New York</span>
+                    </div>
+                    <div class="time">
+                        <span>6:20 PM</span>
+                        <span class="location">United Kingdom</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tasks-section">
+                <div class="section-header">
+                    <h2>Today's tasks</h2>
+                    <span>Reminders</span>
+                </div>
+                
+                <div class="task-list">
+                    <div class="task-card meeting">
+                        <div class="task-content">
+                            <h3>You Have A Meeting</h3>
+                            <div class="time-details">
+                                <div class="start">
+                                    <span class="time">3:00 PM</span>
+                                    <span class="label">Start</span>
+                                </div>
+                                <div class="duration">30 Min</div>
+                                <div class="end">
+                                    <span class="time">3:30 PM</span>
+                                    <span class="label">End</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="calendar-section" style="display: none;">
+                <div class="month-navigation">
+                    <span class="prev-month">&lt;</span>
+                    <div class="month-display">
+                        <span class="prev-month-label">NOV</span>
+                        <span class="current-month-label">DEC</span>
+                        <span class="next-month-label">JAN</span>
+                    </div>
+                    <span class="next-month">&gt;</span>
+                </div>
+                
+                <div class="calendar-days">
+                    <div class="calendar-day">
+                        <span class="day-label">Tuesday</span>
+                        <span class="date-number">13</span>
+                        <span class="month-label">DEC</span>
+                        <div class="time-slots">
+                            <div class="time-slot">
+                                <span class="time">3 pm</span>
+                                <div class="event meeting">Meeting</div>
+                            </div>
+                            <div class="time-slot">
+                                <span class="time">4 pm</span>
+                                <div class="add-event">+</div>
+                            </div>
+                            <div class="time-slot">
+                                <span class="time">5 am</span>
+                                <div class="add-event">+</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="calendar-day">
+                        <span class="day-label">Wednesday</span>
+                        <span class="date-number">14</span>
+                        <span class="month-label">DEC</span>
+                        <div class="time-slots">
+                            <div class="time-slot">
+                                <span class="time">9 am</span>
+                                <div class="add-event">+</div>
+                            </div>
+                            <div class="time-slot">
+                                <span class="time">10 am</span>
+                                <div class="event app-update">App Update</div>
+                            </div>
+                            <div class="time-slot">
+                                <span class="time">11 am</span>
+                                <div class="event meeting">Meeting</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="calendar-day">
+                        <span class="day-label">Thursday</span>
+                        <span class="date-number">15</span>
+                        <span class="month-label">DEC</span>
+                        <div class="time-slots">
+                            <div class="time-slot">
+                                <span class="time">2 pm</span>
+                                <div class="add-event">+</div>
+                            </div>
+                            <div class="time-slot">
+                                <span class="time">3 pm</span>
+                                <div class="add-event">+</div>
+                            </div>
+                            <div class="time-slot">
+                                <span class="time">4 pm</span>
+                                <div class="event web-update">Web Update</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <div class="modal" id="taskModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Task</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="taskForm">
+                <input type="text" id="taskTitle" placeholder="Task Title" required>
+                <div class="time-inputs">
+                    <input type="time" id="startTime" required>
+                    <input type="number" id="duration" placeholder="Duration (min)" required>
+                    <input type="time" id="endTime" required>
+                </div>
+                <button type="submit" class="submit-task">Add Task</button>
+            </form>
+        </div>
+    </div>
     <script src="index.js"></script>
 </body>
 </html>
