@@ -110,6 +110,13 @@ button.add-task {
     font-size: 1.2rem;
 }
 
+.task-description {
+    margin-bottom: 1rem;
+    color: rgba(0, 0, 0, 0.7);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
 .time-details {
     display: flex;
     justify-content: space-between;
@@ -179,6 +186,15 @@ button.add-task {
     border: 1px solid #ddd;
     border-radius: 8px;
     font-size: 1rem;
+}
+
+#taskDescription {
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    min-height: 100px;
+    resize: vertical;
 }
 
 .time-inputs {
@@ -302,4 +318,149 @@ button.add-task {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+}
+
+/* Add these styles */
+.task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.edit-btn {
+    background: rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0;
+}
+
+.edit-btn:hover {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.event {
+    cursor: pointer;
+}
+
+.event:hover {
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.edit-input {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: inherit;
+    font-family: inherit;
+    margin: -4px;
+    width: calc(100% + 8px);
+}
+
+.edit-input[type="time"] {
+    width: auto;
+}
+
+.edit-input[type="number"] {
+    width: 60px;
+}
+
+.task-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.delete-btn {
+    background: rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0;
+}
+
+.delete-btn:hover {
+    background: rgba(255, 0, 0, 0.2);
+}
+
+.priority-selector {
+    margin-bottom: 1rem;
+}
+
+.priority-options {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.priority-option {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.priority-option input[type="radio"] {
+    display: none;
+}
+
+.priority-label {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+.priority-label.high {
+    background: #FFE2E2;
+    color: #FF4444;
+}
+
+.priority-label.medium {
+    background: #FFF4E2;
+    color: #FFA500;
+}
+
+.priority-label.low {
+    background: #E2FFE2;
+    color: #44BB44;
+}
+
+.priority-option input[type="radio"]:checked + .priority-label.high {
+    background: #FF4444;
+    color: white;
+}
+
+.priority-option input[type="radio"]:checked + .priority-label.medium {
+    background: #FFA500;
+    color: white;
+}
+
+.priority-option input[type="radio"]:checked + .priority-label.low {
+    background: #44BB44;
+    color: white;
+}
+
+/* Update task card colors based on priority */
+.task-card.high-priority {
+    background: #FFE2E2;
+}
+
+.task-card.medium-priority {
+    background: #FFF4E2;
+}
+
+.task-card.low-priority {
+    background: #E2FFE2;
 }
