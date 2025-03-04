@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const taskList = document.querySelector('.task-list');
     const tasksSection = document.querySelector('.tasks-section');
     const calendarSection = document.querySelector('.calendar-section');
+    const prevMonthBtn = document.querySelector('.prev-month');
+    const nextMonthBtn = document.querySelector('.next-month');
+    let currentDisplayDate = new Date();
 
     // Update current time and date
     function updateDateTime() {
@@ -24,12 +27,11 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Update times
         const nyTime = new Date().toLocaleString('en-US', {
-            timeZone: 'America/New_York',
+            timeZone: 'Africa/Freetown',
             hour: 'numeric',
             minute: '2-digit',
             hour12: true
         });
-        
         const ukTime = new Date().toLocaleString('en-US', {
             timeZone: 'Europe/London',
             hour: 'numeric',
@@ -161,7 +163,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target === modal) modal.classList.remove('show');
     });
 
-    // Navigation buttons
+    // Add calendar navigation handlers
+    prevMonthBtn.addEventListener('click', () => {
+        currentDisplayDate.setMonth(currentDisplayDate.getMonth() - 1);
+        generateCalendarDays(currentDisplayDate);
+    });
+
+    nextMonthBtn.addEventListener('click', () => {
+        currentDisplayDate.setMonth(currentDisplayDate.getMonth() + 1);
+        generateCalendarDays(currentDisplayDate);
+    });
+
+    // Update the navigation buttons event listener
     const navButtons = document.querySelectorAll('nav button:not(.add-task)');
     navButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -171,6 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (button.textContent === 'Calendar') {
                 tasksSection.style.display = 'none';
                 calendarSection.style.display = 'block';
+                generateCalendarDays(new Date()); // Generate calendar when switching to calendar view
             } else {
                 tasksSection.style.display = 'block';
                 calendarSection.style.display = 'none';
@@ -181,4 +195,63 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize time updates
     updateDateTime();
     setInterval(updateDateTime, 60000);
+
+    // Initialize calendar
+    generateCalendarDays(new Date());
 });
+
+// Add these helper functions at the top of your file
+function getMonthName(month) {
+    const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+    return months[month];
+}
+
+function getDayName(day) {
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    return days[day];
+}
+
+// Add this function to generate calendar days
+function generateCalendarDays(date = new Date()) {
+    const calendarDays = document.querySelector('.calendar-days');
+    calendarDays.innerHTML = ''; // Clear existing days
+
+    // Get current date info
+    const currentDate = date.getDate();
+    const currentMonth = date.getMonth();
+    const currentYear = date.getFullYear();
+
+    // Update month navigation
+    document.querySelector('.prev-month-label').textContent = getMonthName(currentMonth - 1 < 0 ? 11 : currentMonth - 1);
+    document.querySelector('.current-month-label').textContent = getMonthName(currentMonth);
+    document.querySelector('.next-month-label').textContent = getMonthName(currentMonth + 1 > 11 ? 0 : currentMonth + 1);
+
+    // Generate 3 days starting from current date
+    for (let i = 0; i < 3; i++) {
+        const dayDate = new Date(currentYear, currentMonth, currentDate + i);
+        const dayElement = document.createElement('div');
+        dayElement.className = 'calendar-day';
+        
+        dayElement.innerHTML = `
+            <span class="day-label">${getDayName(dayDate.getDay())}</span>
+            <span class="date-number">${dayDate.getDate()}</span>
+            <span class="month-label">${getMonthName(dayDate.getMonth())}</span>
+            <div class="time-slots">
+                <div class="time-slot">
+                    <span class="time">9 AM</span>
+                    <div class="add-event">+</div>
+                </div>
+                <div class="time-slot">
+                    <span class="time">12 PM</span>
+                    <div class="add-event">+</div>
+                </div>
+                <div class="time-slot">
+                    <span class="time">3 PM</span>
+                    <div class="add-event">+</div>
+                </div>
+            </div>
+        `;
+
+        calendarDays.appendChild(dayElement);
+    }
+}
